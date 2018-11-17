@@ -1,7 +1,7 @@
 # crud-richfaces-spring-jdbc
 A simple dynamic web project with crud operations, developed with Spring Tool Suite, RichFaces, Spring Framework and SQLite tecnologies.
 
-These are the technologies used in this project:
+These are versions of the technologies used in this project:
 
 * Java version: [jdk1.8.0_181 64 bit o superiore](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 * Development environment version: [sts-3.9.6 64 bit](https://spring.io/tools3/sts/all)
