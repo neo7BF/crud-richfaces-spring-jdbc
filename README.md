@@ -17,7 +17,7 @@ This project is intended for educational purpose only. For this reason I preferr
 
 To make the download more immediate, in this repository you will find only the content of the workspace of the project, the database and a preview image. The others tools like Tomcat and Db Browser can be downloaded from the respective links. 
 
-If You prefer to have a complete solution you can download the zip (about 700 mb) at the following link:
+If You prefer to have a complete solution you can download the zip (about 700 mb) at the following [url] (https://drive.google.com/drive/folders/1Q6PPwrgXNYTLqjU5wLz3E--WiSUGIbmr?usp=sharing)
 
 * The complete solution present in this zip will work immdiately only if you respect this two conditions:
   * The S.O of development macchine must be a 64 bit Windows version.
