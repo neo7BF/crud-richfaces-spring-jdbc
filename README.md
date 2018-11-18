@@ -13,14 +13,18 @@ These are versions of the technologies used in this project:
 * Editor SQL version: [DB Browser for SQLite 3.10.1 64 bit](https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.10.1-win64.exe)
   * N.B. The .exe is self-extracting file. if don't want follow intallation wizard, unzip it with  [7-zip](https://www.7-zip.org/download.html) to get a portable installation.
   
-This project is intended for educational purpose only. For this reason i preferred to keep it simple as possible by excluding the use of tecnologies like Spring MVC and Maven.
+This project is intended for educational purpose only. For this reason I preferred to keep it simple as possible by excluding the use of tecnologies like Spring MVC and Maven.
 
 To make the download more immediate, in this repository you will find only the content of the workspace of the project, the database and a preview image. The others tools like Tomcat and Db Browser can be downloaded from the respective links. 
 
-If you prefer to have a complete solution you can download the zip (about 700 mb) at the following link:
+If You prefer to have a complete solution you can download the zip (about 700 mb) at the following link:
 
 * The complete solution present in this zip will work immdiately only if you respect this two conditions:
   * The S.O of development macchine must be a 64 bit Windows version.
   * You must unzip it into this path C:\ProgettoWeb, because I have configured the references of sts and the project to this folder.
 
 If you did correctly then the database will be at the following path C:\ProgettoWeb\progettoweb.db
+
+For any communication regarding the project (bugs, requests, tips, ortographic errors etc.) You can use the tools provided by Github or write to me at forcutialessandro@gmail.com.
+
+Good training for everyone.
