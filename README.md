@@ -13,4 +13,6 @@ These are versions of the technologies used in this project:
 * Editor SQL version: [DB Browser for SQLite 3.10.1 64 bit](https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.10.1-win64.exe)
   * N.B. The .exe is self-extracting file. if don't want follow intallation wizard, unzip it with  [7-zip](https://www.7-zip.org/download.html) to get a portable installation.
   
- 
+This project is intended for educational purpose only. For this reason i preferred to keep it simple as possible by excluding the use of tecnologies like Spring MVC and Maven.
+
+
