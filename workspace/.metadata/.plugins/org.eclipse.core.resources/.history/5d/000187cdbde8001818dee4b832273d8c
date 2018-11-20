@@ -1,0 +1,10 @@
+package it.soft.progettoweb.dao.api;
+
+import it.soft.progettoweb.beans.Dipendente;
+
+public interface ProgettoWebDAO {
+	
+	public void inserisci(Dipendente d);
+	
+
+}

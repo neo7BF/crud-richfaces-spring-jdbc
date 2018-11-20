@@ -1,0 +1,112 @@
+package it.soft.progettoweb.beans;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import it.soft.progettoweb.dao.api.DipendenteDAO;
+import it.soft.progettoweb.utils.Utility;
+
+
+/**
+ * 
+ * @author alessandro.forcuti
+ * 
+ **/
+/**
+ Sia JSF2 che Spring possono avere bean gestiti ma solo i beans di JSF2 possono essere visti 
+ dalle espressioni EL (cioé direttamente nella pagina xhtml).
+ Per rendere compatibili gli oggetti gestiti da spring con EL occorre aggiungere l'ELResolver di Spring
+ nel file di configurazione di JSF2 (faces-config.xml)   
+ 
+ Fonte:
+ https://stackoverflow.com/questions/28421777/autowired-service-inside-a-managedbean-component-class-is-null-during-jsf-req 
+ 
+ **/
+
+@ManagedBean(name="gestioneDipendentiModelWeb")
+@SessionScoped
+@Component
+public class GestioneDipendentiModelWeb implements Serializable {
+	private static final long serialVersionUID = 8946474891414223911L;
+	
+	@Autowired
+	private DipendenteDAO dipendenteDAO;
+	
+	//Definisco una variabile di riferimento di tipo "List" (che in java rappresenta una Lista di elementi generica)
+	//Tale lista potrà contenere solo elementi di tipo "Dipendente" 
+	private List<Dipendente> dipendenti = null;
+		
+	private Dipendente dipendenteForm = new Dipendente();
+	
+	private boolean isInModifica() {
+		return dipendenteForm.getId() != null;
+	}
+
+	public void saveDipendente() {
+		try {
+			if(isInModifica()) {
+				dipendenteDAO.update(dipendenteForm);
+			}
+			else {
+				dipendenteDAO.save(dipendenteForm);
+			}
+			dipendenteForm = new Dipendente();
+			Utility.addMessageInfo("operazione completata con successo");			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+	public void deleteDipendenteById(Integer id) {
+		try {
+			dipendenteDAO.deleteByPk(id);
+			Utility.addMessageInfo("operazione completata con successo");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+	public List<Dipendente> getDipendenti() {
+		try {
+			this.dipendenti = dipendenteDAO.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+		return dipendenti;
+	}
+	
+	public void selectDipendenteById(Integer id) {
+		try {
+			this.dipendenteForm = dipendenteDAO.findByPk(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+	public void setDipendenti(List<Dipendente> dipendenti) {
+		this.dipendenti = dipendenti;
+	}
+	public Dipendente getDipendenteForm() {
+		return dipendenteForm;
+	}
+	public void setDipendenteForm(Dipendente dipendenteForm) {
+		this.dipendenteForm = dipendenteForm;
+	}
+	
+	public String invalidateSessionAndRedirectToHome() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("gestioneDipendentiModelWeb",null);
+        return "/index.xhtml?faces-redirect=true";
+    }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML> 
+<html 	xmlns="http://www.w3.org/1999/xhtml" 
+	    xmlns:c="http://xmlns.jcp.org/jsf/core" 
+	    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	    xmlns:f="http://xmlns.jcp.org/jsf/facelets"
+	    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	    xmlns:jc="http://xmlns.jcp.org/jsp/jstl/core"
+	    xmlns:jf="http://xmlns.jcp.org/jsp/jstl/functions"
+	    xmlns:rich="http://richfaces.org/rich"
+	    xmlns:a4j="http://richfaces.org/a4j">
+    
+<!--     xmlns:p="http://xmlns.jcp.org/jsf/passthrough" xmlns:jsf="http://xmlns.jcp.org/jsf" -->
+     
+    <h:head>
+        <title>Lista dipendenti</title>
+        <h:outputStylesheet library="css" name="table-style.css"  />
+    </h:head> 
+    <h:body>
+		<div id="messages">
+			<f:include src="messages.xhtml"/>
+		</div>
+    
+		<h:form id="form">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Cognome" />
+				<h:inputText id="inputCogn" value="#{gestioneDipendentiModelWeb.dipendenteForm.cognome}" />
+				<h:outputLabel value="Nome" />
+				<h:inputText id="inputNome" value="#{gestioneDipendentiModelWeb.dipendenteForm.nome}" />
+				<h:outputLabel value="Data Assunzione" />
+				<rich:calendar id="dataAssunzione" value="#{gestioneDipendentiModelWeb.dipendenteForm.dataAssunzioneDate}" datePattern="dd/MM/yyyy" />
+				<h:commandButton action="#{gestioneDipendentiModelWeb.saveDipendente()}" value="Salva"/>
+			</h:panelGrid>
+ 
+		    <rich:dataTable value="#{gestioneDipendentiModelWeb.dipendenti}" var="dipendente" style="width:600px"
+		     styleClass="order-table" headerClass="order-table-header"rowClasses="order-table-odd-row,order-table-even-row">
+		    	<c:facet name="noData">
+        			nessuna riga presente
+    			</c:facet>
+				<rich:column style="text-align: left; vertical-align:left; width:30%">    				
+			      <c:facet name = "header">Cognome</c:facet>    				
+			      #{dipendente.cognome}
+			   </rich:column>
+			   <rich:column style="text-align: left; vertical-align:left; width:30%">
+			      <c:facet name = "header">Nome</c:facet>
+			      #{dipendente.nome}
+			   </rich:column>
+			   <rich:column style="text-align: center; vertical-align:left; width:20%">
+			      <c:facet name = "header">Data Assunzione</c:facet>
+			      #{dipendente.dataAssunzioneWeb}
+			   </rich:column>
+				<rich:column style="text-align: left; vertical-align:left; width:10%"> 
+	                <h:commandButton action="#{gestioneDipendentiModelWeb.selectDipendenteById(dipendente.id)}" value="Seleziona"/> 
+	            </rich:column> 
+				<rich:column style="text-align: left; vertical-align:left; width:10%"> 
+	                <h:commandButton action="#{gestioneDipendentiModelWeb.deleteDipendenteById(dipendente.id)}" value="Cancella"/> 
+	            </rich:column> 
+		    </rich:dataTable>
+		</h:form>  
+    </h:body> 
+</html> 

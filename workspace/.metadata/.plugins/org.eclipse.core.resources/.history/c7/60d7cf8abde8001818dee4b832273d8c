@@ -1,0 +1,5 @@
+package it.soft.progettoweb.dao.api;
+
+public class ProgettoWebDAO {
+
+}

@@ -1,0 +1,17 @@
+package it.soft.progettoweb.utils;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+public class Main {
+
+	public static void main(String[] args) {
+		  ApplicationContext context = 
+		  new ClassPathXmlApplicationContext("file:C:\\ProgettoWeb\\workspace\\ProgettoWeb\\WebContent\\WEB-INF\\spring-web-config.xml");
+
+		  NamedParameterJdbcTemplate jdbc = (NamedParameterJdbcTemplate) context.getBean("namedParameterJdbcTemplate");
+		  System.out.println("");
+	}
+
+}

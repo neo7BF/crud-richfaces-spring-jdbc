@@ -1,0 +1,90 @@
+package it.soft.progettoweb.utils;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+public class Utility {
+	
+	public static void main(String[] args) {
+		//System.out.println(convertDateToBigDecimal(new Date()));
+		System.out.println(convertBigDecimalToDate(new BigDecimal(20180101)));
+		//System.out.println(convertBigDecimalToDate(new BigDecimal(20180000)));
+		//System.out.println(convertBigDecimalToDate(new BigDecimal(20180101)));
+	}
+	
+	public static String getDataFormatoDDMMAAAA(BigDecimal dataBigdecimal, String defaultValue) {
+		String data = dataBigdecimal == null ? null : String.valueOf(dataBigdecimal);
+		try {
+			if (data == null || data.equalsIgnoreCase("") || data.trim().equalsIgnoreCase("")
+					|| data.trim().equalsIgnoreCase("0")) {
+				return defaultValue;
+			} else if (data.length() == 8) {
+				return data.substring(6, 8).concat("/").concat(data.substring(4, 6)).concat("/").concat(data.substring(0, 4));
+			} else {
+				return data;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return data;
+		}
+	}
+	
+	public static BigDecimal convertDateToBigDecimal(Date date) {
+		if(date == null) return null;
+		
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTime(date);
+		int yyyy = gc.get(GregorianCalendar.YEAR) * 10000;
+		int mm = (gc.get(GregorianCalendar.MONTH)+1) * 100;
+		int dd = gc.get(GregorianCalendar.DAY_OF_MONTH);
+		return new BigDecimal(yyyy+mm+dd);
+	}
+	
+	public static Date convertBigDecimalToDate(BigDecimal date) {
+		if(date == null) return null;
+		
+		int yyyy = date.divide(new BigDecimal(10000)).intValue();
+		int mm = 0;
+		int dd = 0;
+		if(date.divide(new BigDecimal(10000)).intValue() > 0) {
+			
+		  mm = date.subtract(new BigDecimal(yyyy*10000)).divide(new BigDecimal(100)).intValue();
+		  
+		  if(date.subtract(new BigDecimal(yyyy*10000)).divide(new BigDecimal(100)).intValue() > 0) {
+
+			  dd = date.subtract(new BigDecimal(yyyy*10000)).subtract(new BigDecimal(mm*100)).intValue();
+		  }
+		}
+		
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.set(GregorianCalendar.YEAR, yyyy);
+		gc.set(GregorianCalendar.MONTH, mm-1 >= 0 ? mm-1 : 0);
+		gc.set(GregorianCalendar.DAY_OF_MONTH, dd);
+		return gc.getTime();
+	}
+
+	public static String getDataFormatoDDMMAAAA(BigDecimal dataBigdecimal) {
+		return getDataFormatoDDMMAAAA(dataBigdecimal, "0");
+	}
+	
+	public static void addMessageError (Exception e) {
+		addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getClass().getSimpleName()+":"+e.getMessage(),""));
+	}
+	
+	public static void addMessageError (String summary) {
+		addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR,summary,""));
+	}
+	public static void addMessageWarning (String summary) {
+		addMessage(new FacesMessage(FacesMessage.SEVERITY_WARN,summary,""));
+	}
+	public static void addMessageInfo (String summary) {
+		addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO,summary,""));
+	}
+	public static void addMessage (FacesMessage message) {
+		 FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+}

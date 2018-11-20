@@ -1,0 +1,14 @@
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsf/core" 
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+    xmlns:jc="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:jf="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j">
+		<a4j:outputPanel id="panelMessages">  
+		 	<rich:messages id="msgs" />  
+		</a4j:outputPanel>  
+</f:composition>
+	

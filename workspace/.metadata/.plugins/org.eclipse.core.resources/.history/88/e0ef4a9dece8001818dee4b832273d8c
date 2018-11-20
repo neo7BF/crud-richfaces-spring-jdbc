@@ -1,0 +1,15 @@
+package it.soft.progettoweb.dao.api;
+
+import java.util.List;
+
+import it.soft.progettoweb.beans.Dipendente;
+
+public interface DipendenteDAO {
+	
+	public void insert(Dipendente d);
+	public void update(Dipendente d);
+	public void deleteById(Integer id);
+	public List<Dipendente> findAll();
+	public List<Dipendente> findById(Integer id);
+
+}

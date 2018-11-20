@@ -1,0 +1,14 @@
+package it.soft.progettoweb.architecture;
+
+import org.apache.catalina.SessionEvent;
+import org.apache.catalina.SessionListener;
+
+public class ProgettoWebSessionListener implements SessionListener {
+
+	@Override
+	public void sessionEvent(SessionEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

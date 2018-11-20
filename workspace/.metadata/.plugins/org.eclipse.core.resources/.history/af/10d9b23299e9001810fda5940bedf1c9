@@ -1,0 +1,180 @@
+package it.soft.progettoweb.beans;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import it.soft.progettoweb.dao.api.DipendenteDAO;
+import it.soft.progettoweb.utils.Utility;
+
+
+/**
+ * 
+ * @author alessandro.forcuti
+ * 
+ **/
+/**
+ Sia JSF2 che Spring possono avere bean gestiti ma solo i beans di JSF2 possono essere visti 
+ dalle espressioni EL (cioé direttamente nella pagina xhtml).
+ Per rendere compatibili gli oggetti gestiti da spring con EL occorre aggiungere l'ELResolver di Spring
+ nel file di configurazione di JSF2 (faces-config.xml)   
+ 
+ Fonte:
+ https://stackoverflow.com/questions/28421777/autowired-service-inside-a-managedbean-component-class-is-null-during-jsf-req 
+ 
+ **/
+
+@ManagedBean(name="gestioneDipendentiModelWeb")
+@SessionScoped
+@Component
+public class GestioneDipendentiModelWeb implements Serializable {
+	private static final long serialVersionUID = 8946474891414223911L;
+	
+	@Autowired
+	private DipendenteDAO dipendenteDAO;
+	
+	//Definisco una variabile di riferimento di tipo "List" (che in java rappresenta una Lista di elementi generica)
+	//Tale lista potrà contenere solo elementi di tipo "Dipendente" 
+	private List<Dipendente> dipendenti = null;
+		
+	private Dipendente dipendenteForm = new Dipendente();
+	
+	@PostConstruct
+	public void init() {
+		//creaDipendentiManualmente();
+	}
+	
+	public void saveDipendente() {
+		//aggiungiDipendenteManualmente();
+		salvaDipendenteSulDb();
+	}
+	
+	public void cancellaDipendenteById(Integer id) {
+		//cancellaDipendenteDaLista(id);
+		cancellaDipendenteSuDatabase(id);
+	}
+	
+	private void cancellaDipendenteSuDatabase(Integer id) {
+		try {
+			dipendenteDAO.deleteByPk(id);
+			Utility.addMessageInfo("operazione completata con successo");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+	private void salvaDipendenteSulDb() {
+		try {
+			Dipendente dip = dipendenteDAO.findByPk(dipendenteForm.getId());
+			if(dip == null) {
+				dipendenteDAO.save(dipendenteForm);
+			}
+			else {
+				dipendenteDAO.update(dipendenteForm);
+			}
+			dipendenteForm = new Dipendente();
+			Utility.addMessageInfo("operazione completata con successo");			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+	public List<Dipendente> getDipendenti() {
+		try {
+			this.dipendenti = dipendenteDAO.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+		return dipendenti;
+	}
+	
+	public void selezionaDipendenteById(Integer id) {
+		try {
+			this.dipendenteForm = dipendenteDAO.findByPk(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utility.addMessageError(e);
+		}
+	}
+	
+
+//	private void aggiungiDipendenteManualmente() {
+//		dipendenti.add(dipendenteForm);
+//		dipendenteForm = new Dipendente();
+//	}
+
+//	private void cancellaDipendenteDaLista(Integer id) {
+//		//definisco un iteratore che mi permette di ciclare sugli oggetti "Dipendente"
+//		Iterator<Dipendente> iteratorDip = dipendenti.iterator();
+//		
+//		//ciclo finché ci sono oggetti 
+//		while(iteratorDip.hasNext()) {
+//			//Prendo l'oggetto "Dipendente" corrente 
+//			Dipendente currentDip = iteratorDip.next();
+//			//se è ha l'id uguale a quello passato in input
+//			if(currentDip.getId().equals(id)) {
+//				//lo rimuovo
+//				dipendenti.remove(currentDip);
+//				//e interrompo il ciclo perché ho terminato
+//				break;
+//			}
+//		}
+//	}
+
+//	private void creaDipendentiManualmente() {
+//		dipendenti = new ArrayList<Dipendente>();
+//		//creo tre oggetti Dipendente e li aggiungo all'array dipendenti
+//		dipendenti.add(new Dipendente());
+//		dipendenti.add(new Dipendente());
+//		dipendenti.add(new Dipendente());
+//		
+//		//Creo un riferimento di tipo: "Dipendente"
+//		Dipendente dip;
+//		
+//		//prendo il primo oggetto "Dipendente" dell'array
+//		dip = dipendenti.get(0);
+//		
+//		//imposto i suoi attributi dinamici
+//		dip.setId(new Integer(50));
+//		dip.setCognome("Forcuti");
+//		dip.setNome("Alessandro");
+//		dip.setDataAssunzione(new BigDecimal(20100114));
+//		
+//		//prendo il secondo oggetto "Dipendente" dell'array
+//		dip = dipendenti.get(1);
+//		
+//		//imposto i suoi attributi dinamici
+//		dip.setId(new Integer(60));
+//		dip.setCognome("Revelant");
+//		dip.setNome("Andrea");
+//		dip.setDataAssunzione(new BigDecimal(20050114));
+//		
+//		//prendo il terzo oggetto "Dipendente" dell'array
+//		dip = dipendenti.get(2);
+//
+//		//imposto i suoi attributi dinamici
+//		dip.setId(new Integer(70));
+//		dip.setCognome("Tieri");
+//		dip.setNome("Stefania");
+//		dip.setDataAssunzione(new BigDecimal(20140114));
+//	}
+
+	public void setDipendenti(List<Dipendente> dipendenti) {
+		this.dipendenti = dipendenti;
+	}
+	public Dipendente getDipendenteForm() {
+		return dipendenteForm;
+	}
+	public void setDipendenteForm(Dipendente dipendenteForm) {
+		this.dipendenteForm = dipendenteForm;
+	}
+}

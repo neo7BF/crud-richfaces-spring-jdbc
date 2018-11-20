@@ -1,0 +1,100 @@
+package it.soft.progettoweb.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import it.soft.progettoweb.beans.Dipendente;
+import it.soft.progettoweb.dao.api.DipendenteDAO;
+
+@Service
+public class DipendenteDAOImpl implements DipendenteDAO, RowMapper<Dipendente> {
+	
+	@Autowired
+	@Qualifier("namedParameterJdbcTemplate")
+	protected NamedParameterJdbcTemplate jdbc;
+	
+	private static final String INSERT 					= "INSERT INTO DIPENDENTI (COGNOME,NOME,DATA_ASSUNZIONE) VALUES(:cognome,:nome,:dataAssunzione)";
+	private static final String DELETE_BY_PK 			= "DELETE FROM DIPENDENTI WHERE ID=:id";
+	private static final String UPDATE_BY_PK 			= "UPDATE IMPIEGATI SET COGNOME=:cognome, NOME=:nome, DATA_ASSUNZIONE=:dataAssunzione WHERE ID=:id";
+	private static final String SELECT_ALL 				= "SELECT ID,COGNOME,NOME,DATA_ASSUNZIONE FROM DIPENDENTI";
+	private static final String SELECT_BY_PK 			= "SELECT ID,COGNOME,NOME,DATA_ASSUNZIONE FROM DIPENDENTI WHERE ID=:id";
+	private static final String SELECT_BY_COGNOME_NOME 	= "SELECT ID,COGNOME,NOME,DATA_ASSUNZIONE FROM DIPENDENTI WHERE COGNOME=:cognome AND NOME=:nome";
+	
+	@Override
+	public void save(Dipendente d) throws Exception {
+		Map<String, Object> paramMap = new ParamMapBuilder().add("cognome", d.getCognome()).add("nome", d.getNome()).add("dataAssunzione", d.getDataAssunzione()).getParamMap();
+		jdbc.update(INSERT_QUERY, paramMap);  
+	}
+
+	@Override
+	public void update(Dipendente d) throws Exception {
+        Map<String, Object> paramMap = new ParamMapBuilder().add("cognome", d.getCognome()).add("nome", d.getNome()).add("dataAssunzione", d.getDataAssunzione()).add("id", d.getId()).getParamMap();
+		jdbc.update(UPDATE_BY_PK_QUERY, paramMap);        
+	}
+
+	@Override
+	public void deleteByPk(Integer id) throws Exception {
+		
+		Map<String, Object> paramMap = new ParamMapBuilder().add("id", id).getParamMap();
+		
+		jdbc.update(DELETE_BY_PK_QUERY, paramMap);
+	}
+	
+	//queryForObject va in errore se non viene trovato nessun oggetto
+
+	@Override
+	public List<Dipendente> findAll() throws Exception {
+		return jdbc.query(SELECT_ALL,this);
+	}
+	
+	@Override
+	public Dipendente findByPk(Integer id) throws Exception {
+		
+		Map<String, Object> paramMap = new ParamMapBuilder().add("id",id).getParamMap();
+		
+		List<Dipendente> dipendenti = jdbc.query(SELECT_BY_PK,paramMap,this);
+		
+		return dipendenti.size() > 0 ? dipendenti.get(0) : null;
+	}
+	
+	@Override
+	public Dipendente findByCognomeNome(String cognome, String nome) throws Exception {
+		
+		Map<String, Object> paramMap = new ParamMapBuilder().add("cognome", cognome).add("nome", nome).getParamMap();
+		
+		List<Dipendente> dipendenti = jdbc.query(SELECT_BY_COGNOME_NOME,paramMap,this);
+		
+		return dipendenti.size() > 0 ? dipendenti.get(0) : null;
+	}
+	
+	public Dipendente mapRow(ResultSet arg0, int arg1) throws SQLException {
+	  Dipendente dip = new Dipendente();
+	  dip.setId(arg0.getInt("ID"));
+	  dip.setCognome(arg0.getString("COGNOME"));
+	  dip.setNome(arg0.getString("NOME"));
+	  dip.setDataAssunzione(arg0.getBigDecimal("DATA_ASSUNZIONE"));
+	  return dip;
+	}
+	
+	private class ParamMapBuilder {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		public ParamMapBuilder add(String key, Object value) {
+			paramMap.put(key, value);
+			return this;
+		}
+		
+		public Map<String, Object> getParamMap() {
+			return paramMap;
+		}
+	}
+}

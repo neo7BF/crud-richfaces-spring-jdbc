@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:jc="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jf="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j">
+    
+    <h:panelGrid columns="1" width="100%" id="panelMessage">
+		<rich:messages id="messages" layout="list"  rendered="#{}" minLevel="WARN" 
+				showDetail="false" style="font-weight: bold; overflow: auto;  height: 3.8em;">
+		</rich:messages>
+		<rich:messages id="BaseMessagesInfo" layout="list" level="INFO"
+				showDetail="false" style="font-weight: bold; overflow: auto;  height: 3.8em;">
+				<f:facet name="infoMarker">
+					<h:graphicImage url="/images/info.png" styleClass="image-13px" />
+				</f:facet>
+		</rich:messages>
+	    <table>
+	    	<tr>
+	    		<td>
+	    			<a id="tdfocus" href="http://" style="color:white;">i</a>
+				</td>
+			</tr>
+		</table>
+    </h:panelGrid>
+</ui:composition>
+	

@@ -1,0 +1,33 @@
+package it.soft.progettoweb.utils;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class Utility {
+	
+	public static String getDataFormatoDDMMAAAA(BigDecimal dataBigdecimal, String defaultValue) {
+		String data = dataBigdecimal == null ? null : String.valueOf(dataBigdecimal);
+		try {
+			if (data == null || data.equalsIgnoreCase("") || data.trim().equalsIgnoreCase("")
+					|| data.trim().equalsIgnoreCase("0")) {
+				return defaultValue;
+			} else if (data.length() == 8) {
+				return data.substring(6, 8).concat("/").concat(data.substring(4, 6)).concat("/").concat(data.substring(0, 4));
+			} else {
+				return data;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return data;
+		}
+	}
+	
+	public static BigDecimal convertDateToBigDecimal(Date date) {
+		
+	}
+
+	public static String getDataFormatoDDMMAAAA(BigDecimal dataBigdecimal) {
+		return getDataFormatoDDMMAAAA(dataBigdecimal, "0");
+	}
+
+}

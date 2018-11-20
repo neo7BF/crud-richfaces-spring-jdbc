@@ -1,0 +1,40 @@
+package it.soft.progettoweb.utils;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import it.soft.progettoweb.beans.Dipendente;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		try (ClassPathXmlApplicationContext context 
+				= new ClassPathXmlApplicationContext("file:C:\\ProgettoWeb\\workspace\\ProgettoWeb\\WebContent\\WEB-INF\\spring-web-config.xml")) {
+
+			  NamedParameterJdbcTemplate jdbc = (NamedParameterJdbcTemplate) context.getBean("namedParameterJdbcTemplate");
+			  
+			  //JdbcTemplate jdbc = (JdbcTemplate) context.getBean("jdbcTemplate");
+			  
+			  List<Dipendente> dipendenti = 			  
+			  jdbc.query("SELECT ID,COGNOME,NOME,DATA_ASSUNZIONE FROM DIPENDENTI", new RowMapper<Dipendente>() {
+				@Override
+				public Dipendente mapRow(ResultSet arg0, int arg1) throws SQLException {
+					  Dipendente dip = new Dipendente();
+					  dip.setId(arg0.getInt("ID"));
+					  dip.setCognome(arg0.getString("COGNOME"));
+					  dip.setNome(arg0.getString("NOME"));
+					  dip.setDataAssunzione(arg0.getBigDecimal("DATA_ASSUNZIONE"));
+					  return dip;
+				}
+			  });
+			  			  
+			  System.out.println(dipendenti.size() > 0 ? dipendenti.get(0) : "");
+		}
+	}
+}
