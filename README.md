@@ -25,6 +25,13 @@ If You prefer to have a complete solution you can download the zip (about 700 mb
 
 If you did correctly then the database will be at the following path C:\ProgettoWeb\progettoweb.db
 
+* Open the development editor STS included by clicking on the STS.exe icon present in C:\ProgettoWeb.
+* STS Will ask you witch workspace should open, if not already indicated use the following path: 
+  * C:\ProgettoWeb\workspace
+* Identify the Servers panel and click on Run button (or use CTRL+ALT+R shortcut)
+* When the server is started, open the link to the following path: 
+  * http://localhost:8090/ProgettoWeb/faces/index.xhtml
+
 For any communication regarding the project (bugs, requests, tips, ortographic errors etc.) You can use the tools provided by Github or write to me at forcutialessandro@gmail.com.
 
 Good training for everyone.
